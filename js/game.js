@@ -7,8 +7,20 @@ const tecIzquierda = document.querySelector('#left');
 const tecDerecha = document.querySelector('#right');
 const tecAbajo = document.querySelector('#down');
 
+//teclado fisico y digital (events)
+window.addEventListener('keydown',tecFisico);
+tecArriba.addEventListener('click', moverArriba);
+tecIzquierda.addEventListener('click', moverIzquierda);
+tecDerecha.addEventListener('click', moverDerecha);
+tecAbajo.addEventListener('click', moverAbajo);
+
 let canvasSize;
 let itemsSize;
+
+const posicionJugador = {
+    x: undefined,
+    y: undefined,
+};
 
 window.addEventListener('load', resizeScreenGame);
 window.addEventListener('resize', resizeScreenGame); //ajustar pantalla al juego
@@ -51,6 +63,8 @@ function startGame() {
     al mapa según su posición en nivel.
     */
 
+    tablero.clearRect(0,0, canvasSize, canvasSize)
+
     mapaLimpio.forEach((fila, filaIndex) => {
         fila.forEach((columna, columnaIndex) => {
             // variable de emoji
@@ -62,17 +76,20 @@ function startGame() {
 
             //render mapa
             tablero.fillText(emoji, posX, posY)
+
+            //posicionar jugador
+            if (columna == 'O') {
+                if (!posicionJugador.x && !posicionJugador.y) {
+                    posicionJugador.x = posX;
+                    posicionJugador.y = posY;
+                }
+            }
         });
     });
+
+    moverJugador();
 }
 
-tecArriba.addEventListener('click', moverArriba);
-tecIzquierda.addEventListener('click', moverIzquierda);
-tecDerecha.addEventListener('click', moverDerecha);
-tecAbajo.addEventListener('click', moverAbajo);
-
-//teclado fisico (event)
-window.addEventListener('keydown',tecFisico);
 
 function tecFisico(event) {
     console.log({event});
@@ -83,15 +100,28 @@ function tecFisico(event) {
     if (event.key == 'ArrowDown') moverAbajo();
 }
 
+function moverJugador() {
+    //remderiza la posicion del jugador segun movimientos
+    tablero.fillText(emojis['PLAYER'], posicionJugador.x, posicionJugador.y);
+}
+
 function moverArriba() {
     console.log('me muevo arriba');
+    posicionJugador.y -= itemsSize;
+    startGame();
 }
 function moverIzquierda() {
     console.log('me muevo izquierda');
+    posicionJugador.x -= itemsSize;
+    startGame();
 }
 function moverDerecha() {
     console.log('me muevo derecha');
+    posicionJugador.x += itemsSize;
+    startGame();
 }
 function moverAbajo() {
     console.log('me muevo abajo');
+    posicionJugador.y += itemsSize;
+    startGame();
 }
