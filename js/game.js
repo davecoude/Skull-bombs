@@ -1,6 +1,12 @@
 const canvas = document.querySelector('#game');
 const tablero = canvas.getContext('2d'); //eje x,y
 
+//Teclas digitales
+const tecArriba = document.querySelector('#up');
+const tecIzquierda = document.querySelector('#left');
+const tecDerecha = document.querySelector('#right');
+const tecAbajo = document.querySelector('#down');
+
 let canvasSize;
 let itemsSize;
 
@@ -58,4 +64,34 @@ function startGame() {
             tablero.fillText(emoji, posX, posY)
         });
     });
+}
+
+tecArriba.addEventListener('click', moverArriba);
+tecIzquierda.addEventListener('click', moverIzquierda);
+tecDerecha.addEventListener('click', moverDerecha);
+tecAbajo.addEventListener('click', moverAbajo);
+
+//teclado fisico (event)
+window.addEventListener('keydown',tecFisico);
+
+function tecFisico(event) {
+    console.log({event});
+
+    if (event.key == 'ArrowUp') moverArriba();
+    if (event.key == 'ArrowLeft') moverIzquierda();
+    if (event.key == 'ArrowRight') moverDerecha();
+    if (event.key == 'ArrowDown') moverAbajo();
+}
+
+function moverArriba() {
+    console.log('me muevo arriba');
+}
+function moverIzquierda() {
+    console.log('me muevo izquierda');
+}
+function moverDerecha() {
+    console.log('me muevo derecha');
+}
+function moverAbajo() {
+    console.log('me muevo abajo');
 }
