@@ -44,9 +44,18 @@ function startGame() {
     insertar emojis correspondientes
     al mapa según su posición en nivel.
     */
-    for (let filas = 1; filas <= 10; filas++) {
-        for (let columnas = 1; columnas <= 10; columnas++) {
-            tablero.fillText(emojis[mapaLimpio[filas - 1][columnas - 1]], itemsSize * filas + 8     , itemsSize * columnas - 16);
-        }
-    }
+
+    mapaLimpio.forEach((fila, filaIndex) => {
+        fila.forEach((columna, columnaIndex) => {
+            // variable de emoji
+            const emoji = emojis[columna];
+
+            //posiciones
+            const posX = itemsSize * (columnaIndex + 1);
+            const posY = itemsSize * (filaIndex + 1);
+
+            //render mapa
+            tablero.fillText(emoji, posX, posY)
+        });
+    });
 }
