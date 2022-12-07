@@ -107,21 +107,46 @@ function moverJugador() {
 
 function moverArriba() {
     console.log('me muevo arriba');
-    posicionJugador.y -= itemsSize;
-    startGame();
+
+    //limites del canvas
+    if ((posicionJugador.y - itemsSize) < 0) {
+        console.log('out of canvas');
+    } else {
+        posicionJugador.y -= itemsSize;
+        startGame();
+    }
+    
 }
 function moverIzquierda() {
     console.log('me muevo izquierda');
-    posicionJugador.x -= itemsSize;
-    startGame();
+
+    //limites del canvas
+    if ((posicionJugador.x - itemsSize) < 40) {
+        console.log('out of canvas');
+    }else {
+        posicionJugador.x -= itemsSize;
+        startGame();
+    }
 }
 function moverDerecha() {
     console.log('me muevo derecha');
-    posicionJugador.x += itemsSize;
-    startGame();
+
+    // limites del canvas
+    if((posicionJugador.x + itemsSize) > canvasSize) {
+        console.log('out of canvas');
+    }else {
+        posicionJugador.x += itemsSize;
+        startGame();
+    }
 }
 function moverAbajo() {
     console.log('me muevo abajo');
-    posicionJugador.y += itemsSize;
-    startGame();
+
+    //limites del canvas
+    if ((posicionJugador.y + itemsSize) > canvasSize) {
+        console.log('our of canvas');
+    } else {
+        posicionJugador.y += itemsSize;
+        startGame();
+    }
 }
