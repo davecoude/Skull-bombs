@@ -16,6 +16,8 @@ tecAbajo.addEventListener('click', moverAbajo);
 
 let canvasSize;
 let itemsSize;
+let nivel = 0;
+let vidas = 3;
 
 const posicionJugador = {
     x: undefined,
@@ -59,7 +61,12 @@ function startGame() {
     y dividir sus elementos .split()
     */
 
-    const mapa = maps[0]; // devuelve string
+    const mapa = maps[nivel]; // devuelve string
+    //si no hay niveles termina la ejecucion del juego
+    if (!mapa) {
+        juegoGanado();
+        return;
+    }
     const filasMapa = mapa.trim().split('\n'); //['IXXXX','IXXXX','IXXXX',7 más..]
     const mapaLimpio = filasMapa.map( filas => filas.trim().split('')); //array de cada caracter del maps en filas
 
@@ -116,13 +123,37 @@ function tecFisico(event) {
     if (event.key == 'ArrowDown') moverAbajo();
 }
 
+function siguienteNivel() {
+    console.log('Pasaste de nivel, felicidades!');
+    nivel++;
+    startGame();
+}
+
+function nivelPerdido() {
+    console.log('Chocaste con el enemigo, pierdes una vida.');
+    vidas--;
+    console.log(vidas);
+
+    if (vidas <= 0) {
+        nivel = 0;
+        vidas = 3;
+    }
+    posicionJugador.x = undefined;
+    posicionJugador.y = undefined;
+    startGame();
+}
+
+function juegoGanado() {
+    console.log('Juego pasado!!!');
+}
+
 function moverJugador() {
     const colicionRegaloX = posicionJugador.x.toFixed(2) == posicionRegalo.x.toFixed(2);
     const colicionRegaloY = posicionJugador.y.toFixed(2) == posicionRegalo.y.toFixed(2);
     const colicion = colicionRegaloX && colicionRegaloY;
 
     if (colicion) {
-        console.log('pasaste de nivel');
+        siguienteNivel();
     }
 
     const colicionEnemigo = posicionEnemigo.find( enemigo => {
@@ -132,7 +163,7 @@ function moverJugador() {
     });
 
     if (colicionEnemigo) {
-        console.log('Chocaste con el enemigo, pierdes una vida.');
+        nivelPerdido();
     }
 
 
