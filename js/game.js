@@ -21,6 +21,13 @@ const posicionJugador = {
     x: undefined,
     y: undefined,
 };
+//coliciones
+const posicionRegalo = {
+    x: undefined,
+    y: undefined,
+}
+
+let posicionEnemigo = [];
 
 window.addEventListener('load', resizeScreenGame);
 window.addEventListener('resize', resizeScreenGame); //ajustar pantalla al juego
@@ -63,7 +70,8 @@ function startGame() {
     al mapa según su posición en nivel.
     */
 
-    tablero.clearRect(0,0, canvasSize, canvasSize)
+    tablero.clearRect(0,0, canvasSize, canvasSize);
+    posicionEnemigo = [];
 
     mapaLimpio.forEach((fila, filaIndex) => {
         fila.forEach((columna, columnaIndex) => {
@@ -83,6 +91,14 @@ function startGame() {
                     posicionJugador.x = posX;
                     posicionJugador.y = posY;
                 }
+            } else if(columna == 'I') {
+                posicionRegalo.x = posX;
+                posicionRegalo.y = posY;
+            } else if(columna == 'X') {
+                posicionEnemigo.push({
+                    x: posX,
+                    y: posY,
+                })
             }
         });
     });
@@ -101,6 +117,25 @@ function tecFisico(event) {
 }
 
 function moverJugador() {
+    const colicionRegaloX = posicionJugador.x.toFixed(2) == posicionRegalo.x.toFixed(2);
+    const colicionRegaloY = posicionJugador.y.toFixed(2) == posicionRegalo.y.toFixed(2);
+    const colicion = colicionRegaloX && colicionRegaloY;
+
+    if (colicion) {
+        console.log('pasaste de nivel');
+    }
+
+    const colicionEnemigo = posicionEnemigo.find( enemigo => {
+        const colicionEnemigoX = enemigo.x.toFixed(2) == posicionJugador.x.toFixed(2);
+        const colicionEnemigoY = enemigo.y.toFixed(2) == posicionJugador.y.toFixed(2);
+        return colicionEnemigoX && colicionEnemigoY;
+    });
+
+    if (colicionEnemigo) {
+        console.log('Chocaste con el enemigo, pierdes una vida.');
+    }
+
+
     //remderiza la posicion del jugador segun movimientos
     tablero.fillText(emojis['PLAYER'], posicionJugador.x, posicionJugador.y);
 }
@@ -109,7 +144,7 @@ function moverArriba() {
     console.log('me muevo arriba');
 
     //limites del canvas
-    if ((posicionJugador.y - itemsSize) < 0) {
+    if ((posicionJugador.y - itemsSize) < 40) {
         console.log('out of canvas');
     } else {
         posicionJugador.y -= itemsSize;
