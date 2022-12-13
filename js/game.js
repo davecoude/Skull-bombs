@@ -1,6 +1,11 @@
 const canvas = document.querySelector('#game');
 const tablero = canvas.getContext('2d'); //eje x,y
 
+//vidas
+const corazones = document.querySelector('#corazones');
+//tiempo
+const cronometro = document.querySelector('#tiempo');
+
 //Teclas digitales
 const tecArriba = document.querySelector('#up');
 const tecIzquierda = document.querySelector('#left');
@@ -18,6 +23,11 @@ let canvasSize;
 let itemsSize;
 let nivel = 0;
 let vidas = 3;
+
+//tiempo
+let tiempoInicio;
+let tiempoJugador;
+let intervalo;
 
 const posicionJugador = {
     x: undefined,
@@ -67,8 +77,18 @@ function startGame() {
         juegoGanado();
         return;
     }
+
+    //definimos un valor a tiempo si no lo tiene
+    if (!tiempoInicio) {
+        tiempoInicio = Date.now();
+        intervalo = setInterval(mostrarTiempo,100);
+    }
+
     const filasMapa = mapa.trim().split('\n'); //['IXXXX','IXXXX','IXXXX',7 más..]
     const mapaLimpio = filasMapa.map( filas => filas.trim().split('')); //array de cada caracter del maps en filas
+
+    // vidas jugador
+    vidasJugador();
 
 
     /*
@@ -113,6 +133,16 @@ function startGame() {
     moverJugador();
 }
 
+function vidasJugador() {
+    const ArrayCorazones = Array(vidas).fill(emojis['HEART']); //[1,2,3]
+
+    corazones.innerHTML = "";
+    ArrayCorazones.forEach(corazon => corazones.append(corazon));
+}
+
+function mostrarTiempo() {
+    cronometro.innerHTML = Date.now() - tiempoInicio;
+}
 
 function tecFisico(event) {
     console.log({event});
@@ -137,6 +167,7 @@ function nivelPerdido() {
     if (vidas <= 0) {
         nivel = 0;
         vidas = 3;
+        tiempoInicio = undefined;
     }
     posicionJugador.x = undefined;
     posicionJugador.y = undefined;
@@ -145,6 +176,7 @@ function nivelPerdido() {
 
 function juegoGanado() {
     console.log('Juego pasado!!!');
+    clearInterval(intervalo);
 }
 
 function moverJugador() {
@@ -167,7 +199,7 @@ function moverJugador() {
     }
 
 
-    //remderiza la posicion del jugador segun movimientos
+    //renderiza la posicion del jugador segun movimientos
     tablero.fillText(emojis['PLAYER'], posicionJugador.x, posicionJugador.y);
 }
 
