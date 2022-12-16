@@ -1,9 +1,23 @@
 body {
-    background-color: #05F2AF;
     color: #fff;
     font-family: 'Calistoga', cursive;
     margin: 0;
     padding: 0;
+
+    background: hsla(350, 73%, 44%, 1);
+    background: linear-gradient(90deg, hsla(350, 73%, 44%, 1) 0%, hsla(274, 65%, 12%, 1) 100%);
+    background: -moz-linear-gradient(90deg, hsla(350, 73%, 44%, 1) 0%, hsla(274, 65%, 12%, 1) 100%);
+    background: -webkit-linear-gradient(90deg, hsla(350, 73%, 44%, 1) 0%, hsla(274, 65%, 12%, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#C11E38", endColorstr="#220B34", GradientType=1 );
+}
+
+.info__juego {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
 }
 
 .game__container {
@@ -16,10 +30,10 @@ body {
 }
 
 canvas {
-    border: 4px solid #2E8C83;
+    border: 4px solid #F9A620;
     border-radius: 8px;
-    background-color: #F2EC94;
-    margin-bottom: 25px;
+    background:#FFD449;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .btns {
@@ -31,15 +45,17 @@ canvas {
 }
 
 button {
-    color: #0F2F59;
-    background-color: #fdef05;
+    color: #211A1D;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #FFD449;
     border-radius: 8px;
-    border-color: #D9525E;
+    border-color: #F9A620;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 16px;
     margin: 0;
     padding: 5px 20px;
-    width: 100px;
+    width: 120px;
+    height: 38px;
 }
 
 button:not(:last-child) {
@@ -60,9 +76,10 @@ p {
     width: 100%;
 }
 
-@media (max-width: 440px) {
-    button {
-        margin-top: 25px;
+@media (max-width: 620px) {
+
+    .info__juego h1 {
+        font-size: 28px;
     }
 
     #up,

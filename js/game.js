@@ -9,6 +9,11 @@ const cronometro = document.querySelector('#tiempo');
 const spanRecord = document.querySelector('#record');
 const pResultado = document.querySelector('#resultado');
 
+//recargar juego
+const reload = document.querySelector('#reload');
+reload.addEventListener('click', empezarDeNuevo);
+window.addEventListener('keydown',tecFisico)
+
 //Teclas digitales
 const tecArriba = document.querySelector('#up');
 const tecIzquierda = document.querySelector('#left');
@@ -50,15 +55,20 @@ window.addEventListener('resize', resizeScreenGame); //ajustar pantalla al juego
 function resizeScreenGame() {
 
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * 0.8;
+        canvasSize = window.innerWidth * 0.7;
     } else {
-        canvasSize = window.innerHeight * 0.8;
+        canvasSize = window.innerHeight * 0.7;
     }
+
+    posicionJugador.x = undefined;
+    posicionJugador.y = undefined;
 
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
 
     itemsSize = canvasSize / 10;
+
+    canvasSize = Number(canvasSize.toFixed(0));
 
     // comenzar juego despues del resize de la pantalla
     startGame();
@@ -160,6 +170,7 @@ function tecFisico(event) {
     if (event.key == 'ArrowLeft') moverIzquierda();
     if (event.key == 'ArrowRight') moverDerecha();
     if (event.key == 'ArrowDown') moverAbajo();
+    if (event.key == ' ') empezarDeNuevo();
 }
 
 function siguienteNivel() {
@@ -278,3 +289,8 @@ function moverAbajo() {
         startGame();
     }
 }
+
+function empezarDeNuevo() {
+    window.location.reload();
+}
+
