@@ -12,7 +12,8 @@ const pResultado = document.querySelector('#resultado');
 //recargar juego
 const reload = document.querySelector('#reload');
 reload.addEventListener('click', empezarDeNuevo);
-window.addEventListener('keydown',tecFisico)
+window.addEventListener('keydown', tecFisico)
+
 
 //Teclas digitales
 const tecArriba = document.querySelector('#up');
@@ -21,7 +22,7 @@ const tecDerecha = document.querySelector('#right');
 const tecAbajo = document.querySelector('#down');
 
 //teclado fisico y digital (events)
-window.addEventListener('keydown',tecFisico);
+window.addEventListener('keydown', tecFisico);
 tecArriba.addEventListener('click', moverArriba);
 tecIzquierda.addEventListener('click', moverIzquierda);
 tecDerecha.addEventListener('click', moverDerecha);
@@ -87,6 +88,14 @@ function startGame() {
     const mapa = maps[nivel]; // devuelve string
     //si no hay niveles termina la ejecucion del juego
     if (!mapa) {
+        //imagen victoria.
+        const imgVictoria = new Image();
+        imgVictoria.src = 'https://us.123rf.com/450wm/midsummerday/midsummerday1710/midsummerday171000023/87772384-usted-gana-el-texto-glitch-efecto-anaglifo-3d-fondo-retro-tecnol%C3%B3gico-ilustraci%C3%B3n-vectorial-plantill.jpg?ver=6';
+
+        setTimeout(() => {
+            tablero.drawImage(imgVictoria, 0, 0, canvasSize, canvasSize);
+        }, 100);
+
         juegoGanado();
         return;
     }
@@ -94,14 +103,13 @@ function startGame() {
     //definimos un valor a tiempo si no lo tiene
     if (!tiempoInicio) {
         tiempoInicio = Date.now();
-        intervalo = setInterval(mostrarTiempo,100);
-        
+        intervalo = setInterval(mostrarTiempo, 100);
     }
 
     mayorRecord();
 
     const filasMapa = mapa.trim().split('\n'); //['IXXXX','IXXXX','IXXXX',7 más..]
-    const mapaLimpio = filasMapa.map( filas => filas.trim().split('')); //array de cada caracter del maps en filas
+    const mapaLimpio = filasMapa.map(filas => filas.trim().split('')); //array de cada caracter del maps en filas
 
     // vidas jugador
     vidasJugador();
@@ -113,7 +121,7 @@ function startGame() {
     al mapa según su posición en nivel.
     */
 
-    tablero.clearRect(0,0, canvasSize, canvasSize);
+    tablero.clearRect(0, 0, canvasSize, canvasSize);
     posicionEnemigo = [];
 
     mapaLimpio.forEach((fila, filaIndex) => {
@@ -134,10 +142,10 @@ function startGame() {
                     posicionJugador.x = posX;
                     posicionJugador.y = posY;
                 }
-            } else if(columna == 'I') {
+            } else if (columna == 'I') {
                 posicionRegalo.x = posX;
                 posicionRegalo.y = posY;
-            } else if(columna == 'X') {
+            } else if (columna == 'X') {
                 posicionEnemigo.push({
                     x: posX,
                     y: posY,
@@ -164,7 +172,7 @@ function mayorRecord() {
 }
 
 function tecFisico(event) {
-    console.log({event});
+    console.log({ event });
 
     if (event.key == 'ArrowUp') moverArriba();
     if (event.key == 'ArrowLeft') moverIzquierda();
@@ -210,14 +218,24 @@ function mostrarRecords() {
         spanRecord.innerHTML = 'Primera vez, mucha suerte y supera tu tiempo!';
     } else {
         if (tiempoJugador <= record) {
+
             localStorage.setItem('tiempoRecord', tiempoJugador);
             spanRecord.innerHTML = record;
             pResultado.innerHTML = 'Superaste tu record, Felicidades! 🎉🎊';
+
+            //imagen nuevo record.
+            const imgNuevoRecord = new Image();
+            imgNuevoRecord.src = 'https://us.123rf.com/450wm/midsummerday/midsummerday1710/midsummerday171000022/87772383-high-score-glitch-text-efecto-anaglifo-3d-fondo-retro-tecnol%C3%B3gico-ilustraci%C3%B3n-vectorial-plantilla-we.jpg?ver=6';
+
+            setTimeout(() => {
+                tablero.drawImage(imgNuevoRecord, 0, 0, canvasSize, canvasSize);
+            }, 100);
+
         } else {
             pResultado.innerHTML = 'No superaste tu record...sigue intentandolo. 😉';
         }
     }
-    console.log({localStorage});
+    console.log({ localStorage });
 }
 
 function moverJugador() {
@@ -226,17 +244,34 @@ function moverJugador() {
     const colicion = colicionRegaloX && colicionRegaloY;
 
     if (colicion) {
+        //imagen siguiente nivel.
+        const imgVictoria = new Image();
+        imgVictoria.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrn9xQ5MBY6VFn1UQ_vcJIdTZTjzEHF62DqbavfhQBOh-2lMjjGOUWfKhOc8WGyUF3T_8&usqp=CAU';
+
+        setTimeout(() => {
+            tablero.drawImage(imgVictoria, 0, 0, canvasSize, canvasSize);
+        }, 100);
+
         siguienteNivel();
     }
 
-    const colicionEnemigo = posicionEnemigo.find( enemigo => {
+    const colicionEnemigo = posicionEnemigo.find(enemigo => {
         const colicionEnemigoX = enemigo.x.toFixed(2) == posicionJugador.x.toFixed(2);
         const colicionEnemigoY = enemigo.y.toFixed(2) == posicionJugador.y.toFixed(2);
         return colicionEnemigoX && colicionEnemigoY;
     });
 
     if (colicionEnemigo) {
+        //imagen de colición.
+        const img = new Image();
+        img.src = 'https://64.media.tumblr.com/202aeb715d911ac92a261a8ae1706e2f/tumblr_mio0o4dI1Z1s6rlt8o1_500.gif';
+
+        setTimeout(() => {
+            tablero.drawImage(img, 0, 0, canvasSize, canvasSize);
+        }, 100);
+
         nivelPerdido();
+
     }
 
 
@@ -254,7 +289,7 @@ function moverArriba() {
         posicionJugador.y -= itemsSize;
         startGame();
     }
-    
+
 }
 function moverIzquierda() {
     console.log('me muevo izquierda');
@@ -262,7 +297,7 @@ function moverIzquierda() {
     //limites del canvas
     if ((posicionJugador.x - itemsSize) < 40) {
         console.log('out of canvas');
-    }else {
+    } else {
         posicionJugador.x -= itemsSize;
         startGame();
     }
@@ -271,9 +306,9 @@ function moverDerecha() {
     console.log('me muevo derecha');
 
     // limites del canvas
-    if((posicionJugador.x + itemsSize) > canvasSize) {
+    if ((posicionJugador.x + itemsSize) > canvasSize) {
         console.log('out of canvas');
-    }else {
+    } else {
         posicionJugador.x += itemsSize;
         startGame();
     }
