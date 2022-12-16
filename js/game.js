@@ -5,6 +5,9 @@ const tablero = canvas.getContext('2d'); //eje x,y
 const corazones = document.querySelector('#corazones');
 //tiempo
 const cronometro = document.querySelector('#tiempo');
+// record
+const spanRecord = document.querySelector('#record');
+const pResultado = document.querySelector('#resultado');
 
 //Teclas digitales
 const tecArriba = document.querySelector('#up');
@@ -82,7 +85,10 @@ function startGame() {
     if (!tiempoInicio) {
         tiempoInicio = Date.now();
         intervalo = setInterval(mostrarTiempo,100);
+        
     }
+
+    mayorRecord();
 
     const filasMapa = mapa.trim().split('\n'); //['IXXXX','IXXXX','IXXXX',7 más..]
     const mapaLimpio = filasMapa.map( filas => filas.trim().split('')); //array de cada caracter del maps en filas
@@ -143,6 +149,9 @@ function vidasJugador() {
 function mostrarTiempo() {
     cronometro.innerHTML = Date.now() - tiempoInicio;
 }
+function mayorRecord() {
+    record.innerHTML = localStorage.getItem('tiempoRecord');
+}
 
 function tecFisico(event) {
     console.log({event});
@@ -177,6 +186,27 @@ function nivelPerdido() {
 function juegoGanado() {
     console.log('Juego pasado!!!');
     clearInterval(intervalo);
+
+    mostrarRecords();
+}
+
+function mostrarRecords() {
+    const tiempoJugador = Date.now() - tiempoInicio;
+    const record = localStorage.getItem('tiempoRecord');
+
+    if (!record) {
+        localStorage.setItem('tiempoRecord', tiempoJugador);
+        spanRecord.innerHTML = 'Primera vez, mucha suerte y supera tu tiempo!';
+    } else {
+        if (tiempoJugador <= record) {
+            localStorage.setItem('tiempoRecord', tiempoJugador);
+            spanRecord.innerHTML = record;
+            pResultado.innerHTML = 'Superaste tu record, Felicidades! 🎉🎊';
+        } else {
+            pResultado.innerHTML = 'No superaste tu record...sigue intentandolo. 😉';
+        }
+    }
+    console.log({localStorage});
 }
 
 function moverJugador() {
