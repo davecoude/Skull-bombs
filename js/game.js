@@ -223,14 +223,6 @@ function mostrarRecords() {
             spanRecord.innerHTML = record;
             pResultado.innerHTML = 'Superaste tu record, Felicidades! 🎉🎊';
 
-            //imagen nuevo record.
-            const imgNuevoRecord = new Image();
-            imgNuevoRecord.src = 'https://us.123rf.com/450wm/midsummerday/midsummerday1710/midsummerday171000022/87772383-high-score-glitch-text-efecto-anaglifo-3d-fondo-retro-tecnol%C3%B3gico-ilustraci%C3%B3n-vectorial-plantilla-we.jpg?ver=6';
-
-            setTimeout(() => {
-                tablero.drawImage(imgNuevoRecord, 0, 0, canvasSize, canvasSize);
-            }, 100);
-
         } else {
             pResultado.innerHTML = 'No superaste tu record...sigue intentandolo. 😉';
         }
@@ -244,14 +236,6 @@ function moverJugador() {
     const colicion = colicionRegaloX && colicionRegaloY;
 
     if (colicion) {
-        //imagen siguiente nivel.
-        const imgVictoria = new Image();
-        imgVictoria.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrn9xQ5MBY6VFn1UQ_vcJIdTZTjzEHF62DqbavfhQBOh-2lMjjGOUWfKhOc8WGyUF3T_8&usqp=CAU';
-
-        setTimeout(() => {
-            tablero.drawImage(imgVictoria, 0, 0, canvasSize, canvasSize);
-        }, 100);
-
         siguienteNivel();
     }
 
@@ -262,16 +246,7 @@ function moverJugador() {
     });
 
     if (colicionEnemigo) {
-        //imagen de colición.
-        const img = new Image();
-        img.src = 'https://64.media.tumblr.com/202aeb715d911ac92a261a8ae1706e2f/tumblr_mio0o4dI1Z1s6rlt8o1_500.gif';
-
-        setTimeout(() => {
-            tablero.drawImage(img, 0, 0, canvasSize, canvasSize);
-        }, 100);
-
         nivelPerdido();
-
     }
 
 
